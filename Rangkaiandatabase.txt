@@ -1,0 +1,32 @@
+CREATE TABLE users (
+  user_id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role ENUM('admin', 'user') DEFAULT 'user',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE laporan (
+  laporan_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  status_pelapor ENUM('Korban', 'Saksi') NOT NULL,
+  nama_korban VARCHAR(100),
+  pendidikan ENUM('Guru', 'Siswa'),
+  nama_pelaku VARCHAR(100),
+  frekuensi_kejadian VARCHAR(100),
+  tempat_kejadian ENUM('Di Sekolah', 'Diluar Sekolah'),
+  nama_tempat_kejadian VARCHAR(150),
+  tanggal_waktu_kejadian DATETIME,
+  nomor_kontak VARCHAR(20),
+  verifikasi BOOLEAN DEFAULT FALSE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE lampiran (
+  lampiran_id INT AUTO_INCREMENT PRIMARY KEY,
+  laporan_id INT NOT NULL,
+  file_path VARCHAR(255) NOT NULL,
+  uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (laporan_id) REFERENCES laporan(laporan_id)
+);
