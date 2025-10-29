@@ -1,33 +1,52 @@
 const express = require('express')
 const path = require('path')
+const session = require('express-session')
+const bcrypt = require('bcryptjs')
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 const mysql = require('mysql2')
 
-// Middleware biar Express bisa baca data dari form (body parser)
-app.use(express.urlencoded({ extended: true })) // untuk form HTML
-app.use(express.json()) // untuk JSON (kalau pakai fetch API)
+// Routes & controllers (modular)
+const authRoutes = require('./src/routes/auth')
+const laporanRoutes = require('./src/routes/laporan')
+const authController = require('./src/controllers/authController')
+const laporanController = require('./src/controllers/laporanController')
+const checkAuth = require('./src/middleware/auth')
 
-// Serve file HTML
+// Static files (public)
+app.use(express.static(path.join(__dirname, 'public')))
+
+// Middleware untuk parsing body
+app.use(express.urlencoded({ extended: true })) // form
+app.use(express.json()) // json
+
+// Session (development-friendly). Gunakan env var untuk secret di produksi.
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'admin27',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: process.env.NODE_ENV === 'production' }
+  })
+)
+
+// Serve index
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'))
 })
 
-// 🧠 Route POST untuk terima data form
-app.post('/lapor', (req, res) => {
-  const data = req.body
-  console.log('Data laporan diterima:')
-  console.log(data)
+// Mount modular routes
+app.use('/auth', authRoutes) // /auth/login, /auth/logout
+app.use('/api', laporanRoutes) // /api/lapor (protected in route file)
 
-  // Di sini nanti bisa kamu tambahkan logika untuk simpan ke database
-  // Contoh: simpan ke MongoDB / MySQL
+// Backwards-compatible aliases (optional)
+// These call the same controller logic as the modular routes so existing code works.
+app.post('/login', authController.login)
+app.get('/logout', authController.logout)
+app.post('/lapor', checkAuth, laporanController.createLaporan)
 
-  res.json({
-    success: true,
-    message: 'Laporan berhasil diterima!',
-    data: data
-  })
-})
+// Simple health route
+app.get('/health', (req, res) => res.json({ ok: true }))
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`)
