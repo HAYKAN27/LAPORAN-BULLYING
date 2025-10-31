@@ -7,12 +7,14 @@ const authController = {
         if (username === 'admin' && password === 'admin123') {
             req.session.loggedIn = true;
             req.session.username = username;
-            res.json({ success: true, message: 'Login berhasil!' });
+            res.render('index', { user: req.session.username });
+            // res.json({ success: true, message: 'Login berhasil!' });
             
         } else if(username === 'haikal123' && password === '272727'){
             req.session.loggedIn = true;
             req.session.username = username;
-            res.json({ success: true, message: 'Login berhasil!' });
+            res.render('index', { user: req.session.username });
+            // res.json({ success: true, message: 'Login berhasil!' });
         }
         else {
             // Reset session untuk keamanan
@@ -50,7 +52,7 @@ const authController = {
 
     logout: (req, res) => {
         req.session.destroy();
-        res.json({ success: true, message: 'Logout berhasil!' });
+        res.json({ success: true, message: 'Logout berhasil! cuyyyy' });
     }
 };
 

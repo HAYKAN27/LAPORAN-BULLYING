@@ -2,25 +2,30 @@ const express = require('express')
 const path = require('path')
 const session = require('express-session')
 const bcrypt = require('bcryptjs')
+const { pool, checkConnection, initializeDatabase } = require('./src/config/database')
+
 const app = express()
 const port = process.env.PORT || 3000
-const mysql = require('mysql2')
 
-// Routes & controllers (modular)
+// Routes & controllers
 const authRoutes = require('./src/routes/auth')
 const laporanRoutes = require('./src/routes/laporan')
 const authController = require('./src/controllers/authController')
 const laporanController = require('./src/controllers/laporanController')
 const checkAuth = require('./src/middleware/auth')
 
-// Static files (public)
+// View Engine EJS
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
+
+// Static assets (css/js/img)
 app.use(express.static(path.join(__dirname, 'public')))
 
-// Middleware untuk parsing body
-app.use(express.urlencoded({ extended: true })) // form
-app.use(express.json()) // json
+// Body parser
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
-// Session (development-friendly). Gunakan env var untuk secret di produksi.
+// Session
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'admin27',
@@ -29,25 +34,65 @@ app.use(
     cookie: { secure: process.env.NODE_ENV === 'production' }
   })
 )
-
-// Serve index
+// Home → login page
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'))
+  res.render('login', { user: req.session.username })
+})
+// Login form post
+app.post('/login', (req, res) => {
+  authController.login(req, res)
+})
+// Logout
+app.get('/logout', authController.logout)
+
+// Menampilkan form laporan
+app.get('/index', checkAuth, (req, res) => {
+  res.render('index', { user: req.session.username })
 })
 
-// Mount modular routes
-app.use('/auth', authRoutes) // /auth/login, /auth/logout
-app.use('/api', laporanRoutes) // /api/lapor (protected in route file)
-
-// Backwards-compatible aliases (optional)
-// These call the same controller logic as the modular routes so existing code works.
-app.post('/login', authController.login)
-app.get('/logout', authController.logout)
+// Handle form laporan POST
 app.post('/lapor', checkAuth, laporanController.createLaporan)
 
-// Simple health route
+// API Routes (JSON)
+app.use('/auth', authRoutes)
+app.use('/api', laporanRoutes)
+
+// Health
 app.get('/health', (req, res) => res.json({ ok: true }))
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`)
-})
+// Start Server
+async function startServer() {
+  try {
+    await checkConnection()
+    await initializeDatabase()
+
+    app.listen(port, () => {
+      console.log(`
+🚀 Server running at http://localhost:${port}
+
+📝 Endpoints:
+- GET  /               Login Page
+- POST /login          Login
+- GET  /lapor          Form laporan
+- POST /lapor          Submit laporan
+- GET  /logout         Logout
+
+📡 API:
+- POST /api/lapor
+- GET  /api/laporan
+- GET  /api/laporan/saya
+
+Default Admin:
+  username: admin
+  password: admin123
+
+✅ Server & Database siap!
+`)
+    })
+  } catch (error) {
+    console.error('❌ Gagal menjalankan server:', error)
+    process.exit(1)
+  }
+}
+
+startServer()

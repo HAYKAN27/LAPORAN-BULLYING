@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="container mt-5">
+    <h2 class="mb-4">Daftar Laporan Bullying</h2>
+
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>#</th>
+                <th>Status Pelapor</th>
+                <th>Nama Korban</th>
+                <th>Pendidikan</th>
+                <th>Nama Pelaku</th>
+                <th>Frekuensi</th>
+                <th>Tempat</th>
+                <th>Nama Tempat</th>
+                <th>Tanggal Kejadian</th>
+                <th>Bukti</th>
+                <th>No. Kontak</th>
+                <th>Tanggal Lapor</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% if (laporan && laporan.length > 0) { %>
+                <% laporan.forEach((data, index) => { %>
+                <tr>
+                    <td class="text-center"><%= index + 1 %></td>
+                    <td><%= data.statusPelapor %></td>
+                    <td><%= data.namaKorban %></td>
+                    <td><%= data.pendidikan %></td>
+                    <td><%= data.namaPelaku %></td>
+                    <td><%= data.frekuensi %></td>
+                    <td><%= data.tempat %></td>
+                    <td><%= data.namaTempat %></td>
+                    <td class="text-center"><%= new Date(data.tanggalKejadian).toLocaleDateString() %></td>
+                    <td>
+                        <% if(data.bukti) { %>
+                            <a href="/uploads/<%= data.bukti %>" target="_blank">Lihat</a>
+                        <% } else { %>
+                            Tidak ada
+                        <% } %>
+                    </td>
+                    <td><%= data.kontak %></td>
+                    <td class="text-center"><%= new Date(data.created_at).toLocaleDateString() %></td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-info">Detail</button>
+                        <button class="btn btn-sm btn-danger">Hapus</button>
+                    </td>
+                </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="13" class="text-center text-muted">Belum ada laporan.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
