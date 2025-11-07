@@ -34,7 +34,7 @@ const laporanController = {
                 // jika form HTML biasa (bukan AJAX)
                 return res.redirect(`/index?error=Field berikut harus diisi: ${emptyFields.join(', ')}`);
 
-            }
+            }   
 
             if (!/^08[0-9]{8,11}$/.test(nomorTelepon)) {
                 return res.redirect(`/index?error=Format nomor telepon tidak valid (contoh: 081234567890)`);

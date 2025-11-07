@@ -4,15 +4,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulir Laporan</title>
+    <title>Formulir Laporan - Mazer Style</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS for Dark Theme (Mazer-like) -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            font-family: 'Nunito', sans-serif;
+            color: #fff;
+            min-height: 100vh;
+        }
+        .navbar {
+            background: rgba(0, 123, 255, 0.9) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .navbar-brand {
+            color: #fff !important;
+        }
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+        .nav-link.active {
+            color: #fff !important;
+        }
+        .btn-light {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            color: #fff !important;
+        }
+        .btn-light:hover {
+            background: rgba(255, 255, 255, 0.2) !important;
+        }
+        .laporan-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-top: 2rem;
+        }
+        .table {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .table th, .table td {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            background: transparent;
+        }
+        .table th {
+            background: rgba(0, 123, 255, 0.2);
+        }
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            border-radius: 10px;
+        }
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .form-check-input {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .form-check-input:checked {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: bold;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #0056b3, #004085);
+        }
+        .icon {
+            font-size: 3rem;
+            color: #007bff;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 576px) {
+            .laporan-card {
+                padding: 1.5rem;
+            }
+            .icon {
+                font-size: 2.5rem;
+            }
+            .table-responsive {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="/">Laporan Bullying</a>
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-shield-alt me-2"></i>Laporan Bullying
+            </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -21,13 +126,15 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" href="/">Home</a>
+                        <a class="nav-link active" href="/">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
                     </li>
 
                     <!-- Button Logout -->
                     <li class="nav-item ms-3">
                         <a href="/" class="btn btn-light btn-sm text-danger fw-semibold">
-                            Logout
+                            <i class="fas fa-sign-out-alt me-1"></i>Logout
                         </a>
                     </li>
                 </ul>
@@ -35,117 +142,120 @@
         </div>
     </nav>
 
+    <!-- Formulir Laporan -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="laporan-card">
+                    <div class="text-center">
+                        <i class="fas fa-file-alt icon"></i>
+                        <h2 class="mb-4">Formulir Laporan</h2>
+                        <p class="text-muted">Laporkan kejadian bullying dengan lengkap dan aman</p>
+                    </div>
+                    <form method="post" action="/lapor">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold">Status Pelapor</td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="statusPelapor" id="korban" value="Korban" required>
+                                                <label class="form-check-label" for="korban">Korban</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="statusPelapor" id="saksi" value="Saksi">
+                                                <label class="form-check-label" for="saksi">Saksi</label>
+                                            </div>
+                                        </td>
+                                    </tr>
 
-    <!-- Formulir Laporan (akan ditampilkan setelah login) -->
-    <div id="laporanForm" class="container m-3 p-4 bg-light">
-        <h2 class="mb-4">Formulir Laporan</h2>
-        <form method="post" action="/lapor">
-            <table class="table table-bordered table-secondary">
-                <tbody>
-                    <tr>
-                        <td class="fw-bold">Status Pelapor</td>
-                        <td>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="statusPelapor" id="korban"
-                                    value="Korban">
-                                <label class="form-check-label" for="korban">Korban</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="statusPelapor" id="saksi"
-                                    value="Saksi">
-                                <label class="form-check-label" for="saksi">Saksi</label>
-                            </div>
-                        </td>
-                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Nama Korban</td>
+                                        <td><input name="namaKorban" type="text" class="form-control" placeholder="Masukkan nama korban" required></td>
+                                    </tr>
 
-                    <tr>
-                        <td class="fw-bold">Nama Korban</td>
-                        <td><input name="namaKorban" type="text" class="form-control"
-                                placeholder="Masukkan nama korban"></td>
-                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Pilih Pendidikan</td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="pendidikan" id="guru" value="Guru" required>
+                                                <label class="form-check-label" for="guru">Guru</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="pendidikan" id="siswa" value="Siswa">
+                                                <label class="form-check-label" for="siswa">Siswa</label>
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                    <tr>
-                        <td class="fw-bold">Pilih Pendidikan</td>
-                        <td>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="pendidikan" id="guru" value="Guru">
-                                <label class="form-check-label" for="guru">Guru</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="pendidikan" id="siswa" value="Siswa">
-                                <label class="form-check-label" for="siswa">Siswa</label>
-                            </div>
-                        </td>
-                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Nama Pelaku</td>
+                                        <td><input name="namaPelaku" type="text" class="form-control" placeholder="Masukkan nama pelaku" required></td>
+                                    </tr>
 
-                    <tr>
-                        <td class="fw-bold">Nama Pelaku</td>
-                        <td><input name="namaPelaku" type="text" class="form-control"
-                                placeholder="Masukkan nama pelaku"></td>
-                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Frekuensi Kejadian</td>
+                                        <td><input name="frekuensiKejadian" type="text" class="form-control" placeholder="Contoh: Sudah 3 kali membully" required></td>
+                                    </tr>
 
-                    <tr>
-                        <td class="fw-bold">Frekuensi Kejadian</td>
-                        <td><input name="frekuensiKejadian" type="text" class="form-control"
-                                placeholder="Contoh: Sudah 3 kali membully"></td>
-                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Tempat Kejadian</td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="tempatKejadian" id="sekolah" value="Di Sekolah" required>
+                                                <label class="form-check-label" for="sekolah">Di Sekolah</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="tempatKejadian" id="luarSekolah" value="Diluar Sekolah">
+                                                <label class="form-check-label" for="luarSekolah">Diluar Sekolah</label>
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                    <tr>
-                        <td class="fw-bold">Tempat Kejadian</td>
-                        <td>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="tempatKejadian" id="sekolah"
-                                    value="Di Sekolah">
-                                <label class="form-check-label" for="sekolah">Di Sekolah</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="tempatKejadian" id="luarSekolah"
-                                    value="Diluar Sekolah">
-                                <label class="form-check-label" for="luarSekolah">Diluar Sekolah</label>
-                            </div>
-                        </td>
-                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Nama Tempat Kejadian</td>
+                                        <td><input name="namaTempat" type="text" class="form-control" placeholder="Masukkan nama tempat" required></td>
+                                    </tr>
 
-                    <tr>
-                        <td class="fw-bold">Nama Tempat Kejadian</td>
-                        <td><input name="namaTempat" type="text" class="form-control"
-                                placeholder="Masukkan nama tempat"></td>
-                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Tanggal dan Waktu Kejadian</td>
+                                        <td>
+                                            <input name="tanggalWaktu" type="datetime-local" class="form-control" required>
+                                        </td>
+                                    </tr>
 
-                    <tr>
-                        <td class="fw-bold">Tanggal dan Waktu Kejadian</td>
-                        <td>
-                            <input name="tanggalWaktu" type="datetime-local" class="form-control">
-                        </td>
-                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Nomor Telepon</td>
+                                        <td><input name="nomorTelepon" type="tel" class="form-control" placeholder="Masukkan nomor telepon" required></td>
+                                    </tr>
 
-                    <tr>
-                        <td class="fw-bold">Nomor Telepon</td>
-                        <td><input name="nomorTelepon" type="tel" class="form-control"
-                                placeholder="Masukkan nomor telepon"></td>
-                    </tr>
-
-                    <tr>
-                        <td class="fw-bold">Verifikasi</td>
-                        <td>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="robotCheck" required>
-                                <label class="form-check-label" for="robotCheck">Saya bukan robot</label>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <button type="submit" class="btn btn-primary">Kirim Laporan</button>
-        </form>
+                                    <tr>
+                                        <td class="fw-bold">Verifikasi</td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="robotCheck" required>
+                                                <label class="form-check-label" for="robotCheck">Saya bukan robot</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Kirim Laporan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
-
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    </script>
 </body>
 
 </html>
+    

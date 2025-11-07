@@ -33,16 +33,7 @@ async function createTables() {
             )
         `);
 
-        // Tambahkan admin default jika belum ada
-        const [admins] = await db.query('SELECT id FROM users WHERE username = ?', ['admin']);
-        if (admins.length === 0) {
-            const bcrypt = require('bcryptjs');
-            const hashedPassword = await bcrypt.hash('admin123', 10);
-            await db.query(
-                'INSERT INTO users (username, password) VALUES (?, ?)',
-                ['admin', hashedPassword]
-            );
-        }
+    
 
         return true;
     } catch (error) {

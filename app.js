@@ -13,6 +13,7 @@ const laporanRoutes = require('./src/routes/laporan')
 const authController = require('./src/controllers/authController')
 const laporanController = require('./src/controllers/laporanController')
 const checkAuth = require('./src/middleware/auth')
+const adminRoute = require('./src/routes/admin');
 
 // View Engine EJS
 app.set('views', path.join(__dirname, 'views'))
@@ -36,8 +37,14 @@ app.use(
 )
 // Home → login page
 app.get('/', (req, res) => {
-  res.render('login', { user: req.session.username })
+  res.render('loginn', { user: req.session.username })
 })
+app.get('/register', (req, res) => {
+  res.render('register', { user: req.session.username })
+})
+
+
+
 // Login form post
 app.post('/login', (req, res) => {
   authController.login(req, res)
@@ -49,6 +56,8 @@ app.get('/logout', authController.logout)
 app.get('/index', checkAuth, (req, res) => {
   res.render('index', { user: req.session.username })
 })
+
+app.use('/admin', adminRoute);
 
 // Handle form laporan POST
 app.post('/lapor', checkAuth, laporanController.createLaporan)
