@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const adminController = require('../controllers/adminControllers');
 
-router.get('/dashboard', (req, res) => {
-    res.render('admin/dashboard', {
-        title: "Dashboard Admin",
-        user: req.session?.username
-    });
-});
+// Dashboard
+router.get('/dashboard', adminController.getDashboard.bind(adminController));
+
+// Page ML
+router.get('/page-ml', (req, res) => adminController.getPageML(req, res));
 
 module.exports = router;

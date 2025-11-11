@@ -91,7 +91,7 @@
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-6 d-flex justify-content-center">
                 <div class="register-card">
                     <div class="text-center">
                         <i class="fas fa-user-plus icon"></i>
@@ -121,7 +121,7 @@
                         <button type="submit" class="btn btn-primary w-100">Register</button>
                     </form>
                     <div class="text-center mt-3">
-                        <p>Already have an account? <a href="/login" class="text-link">Login here</a></p>
+                        <p>Already have an account? <a href="/pageLogin" class="text-link">Login here</a></p>
                     </div>
                 </div>
             </div>
@@ -137,7 +137,7 @@
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
 
-            if (password !== confirmPassword) {
+            if (password !== confirmPassword) { 
                 alert('Passwords do not match!');
                 return;
             }

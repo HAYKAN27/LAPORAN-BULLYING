@@ -1,7 +1,6 @@
 const authController = {
     login: (req, res) => {
         const { username, password } = req.body;
-
         if (username === 'admin' && password === 'admin123') {
             req.session.loggedIn = true;
             req.session.username = username;
@@ -14,15 +13,14 @@ const authController = {
             // Pesan error dikirim ke halaman login
             let message = '';
             if (!username || username.trim() === '') {
-                message = 'Username tidak boleh kosong!';
+                message = 'Username tidak boleh kosong!';   
             } else if (!password || password.trim() === '') {
                 message = 'Password tidak boleh kosong!';
             } else {
                 message = 'Username atau password salah!';
-            }
-
+            }       
             // Render ulang halaman login + tampilkan alert
-            res.render('login', { message });
+            res.render('pagelogin', { message });
         }
     },
 

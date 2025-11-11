@@ -1,4 +1,5 @@
 const express = require('express')
+const router = express.Router();
 const path = require('path')
 const session = require('express-session')
 const bcrypt = require('bcryptjs')
@@ -10,13 +11,17 @@ const port = process.env.PORT || 3000
 // Routes & controllers
 const authRoutes = require('./src/routes/auth')
 const laporanRoutes = require('./src/routes/laporan')
+const adminRoutes = require('./src/routes/admin')
 const authController = require('./src/controllers/authController')
 const laporanController = require('./src/controllers/laporanController')
 const checkAuth = require('./src/middleware/auth')
-const adminRoute = require('./src/routes/admin');
 
 // View Engine EJS
+app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
+
+// Serve static files (termasuk assets Mazer)
+app.use(express.static(path.join(__dirname, 'public')))
 app.set('view engine', 'ejs')
 
 // Static assets (css/js/img)
@@ -37,13 +42,22 @@ app.use(
 )
 // Home → login page
 app.get('/', (req, res) => {
-  res.render('loginn', { user: req.session.username })
+  res.render('pagelogin', { user: req.session.username })
 })
 app.get('/register', (req, res) => {
   res.render('register', { user: req.session.username })
 })
+app.get('/pageLogin', (req, res) => {
+  res.render('pagelogin', { user: req.session.username })
+})
+router.get('/admin/page-ml', (req, res) => adminController.getPageML(req, res));
 
-
+app.get('/dashAdmin', (req, res) => {
+  res.render('admin/dashboard', { user: req.session.username })
+})
+app.get('/DaftarLaporan', (req, res) => {
+  res.render('admin/PageML', { user: req.session.username })
+})
 
 // Login form post
 app.post('/login', (req, res) => {
@@ -57,13 +71,17 @@ app.get('/index', checkAuth, (req, res) => {
   res.render('index', { user: req.session.username })
 })
 
-app.use('/admin', adminRoute);
+// PAGE ADMIN - Gunakan admin routes
+app.use('/admin', adminRoutes);
+
+
 
 // Handle form laporan POST
 app.post('/lapor', checkAuth, laporanController.createLaporan)
 
+
 // API Routes (JSON)
-app.use('/auth', authRoutes)
+app.use('/auth', authRoutes)    
 app.use('/api', laporanRoutes)
 
 // Health
