@@ -18,12 +18,11 @@ Website untuk mengelola dan menampilkan laporan kasus bullying di sekolah.
    ```bash
    git clone https://github.com/username/nama-repo.git
 2. Masuk ke folder:
-
-cd nama-repo
-
+   ```bash
+   cd-repo
 3.Install dependencies:
-
-npm install
+   ```bash
+   npm install
 
 4.Jalankan server:
 
