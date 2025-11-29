@@ -1,32 +1,64 @@
-CREATE TABLE users (
-  user_id INT AUTO_INCREMENT PRIMARY KEY,
+-- Tabel users
+CREATE TABLE IF NOT EXISTS users (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
-  role ENUM('admin', 'user') DEFAULT 'user',
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
+  email VARCHAR(150) DEFAULT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,       -- bcrypt hash
+  role ENUM('admin','user') NOT NULL DEFAULT 'user',
+  status ENUM('active','inactive') NOT NULL DEFAULT 'active',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_username (username)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE laporan (
-  laporan_id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT NOT NULL,
-  status_pelapor ENUM('Korban', 'Saksi') NOT NULL,
-  nama_korban VARCHAR(100),
-  pendidikan ENUM('Guru', 'Siswa'),
-  nama_pelaku VARCHAR(100),
-  frekuensi_kejadian VARCHAR(100),
-  tempat_kejadian ENUM('Di Sekolah', 'Diluar Sekolah'),
-  nama_tempat_kejadian VARCHAR(150),
-  tanggal_waktu_kejadian DATETIME,
-  nomor_kontak VARCHAR(20),
-  verifikasi BOOLEAN DEFAULT FALSE,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
 
-CREATE TABLE lampiran (
-  lampiran_id INT AUTO_INCREMENT PRIMARY KEY,
-  laporan_id INT NOT NULL,
+-- Tabel laporan
+CREATE TABLE IF NOT EXISTS laporan (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  pelapor_id INT UNSIGNED NOT NULL,
+  status_pelapor ENUM('Korban','Saksi') NOT NULL,
+  nama_korban VARCHAR(150) DEFAULT NULL,
+  -- jika nilai pendidikan bisa bertambah/berubah, gunakan VARCHAR; jika hanya 2 pilih ENUM
+  pendidikan ENUM('Guru','Siswa','Lainnya') DEFAULT 'Siswa',
+  nama_pelaku VARCHAR(150) DEFAULT NULL,
+  frekuensi_kejadian TEXT DEFAULT NULL,
+  -- gunakan VARCHAR agar lebih fleksibel daripada ENUM bila kemungkinan bertambah
+  tempat_kejadian VARCHAR(100) DEFAULT NULL,
+  nama_tempat VARCHAR(150) DEFAULT NULL,
+  tanggal_waktu DATETIME DEFAULT NULL,
+  bukti_file_path VARCHAR(255) DEFAULT NULL,
+  nomor_telepon VARCHAR(20) DEFAULT NULL,
+  status ENUM('pending','diterima','ditolak') NOT NULL DEFAULT 'pending',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_laporan_pelapor FOREIGN KEY (pelapor_id) REFERENCES users(id)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  INDEX idx_pelapor_id (pelapor_id),
+  INDEX idx_status (status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- Tabel lampiran (file bukti)
+CREATE TABLE IF NOT EXISTS lampiran (
+  lampiran_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  laporan_id INT UNSIGNED NOT NULL,
   file_path VARCHAR(255) NOT NULL,
-  uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (laporan_id) REFERENCES laporan(laporan_id)
+  file_type VARCHAR(50) DEFAULT NULL, -- mis. 'image/png' atau 'video/mp4'
+  uploaded_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_lampiran_laporan FOREIGN KEY (laporan_id) REFERENCES laporan(id)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  INDEX idx_laporan_id (laporan_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+//TABEL RIWAYAT Laporan
+CREATE TABLE IF NOT EXISTS riwayat_laporan (
+    riwayat_id INT AUTO_INCREMENT PRIMARY KEY,
+    laporan_id INT NOT NULL,
+    admin_id INT NOT NULL,
+    status_lama ENUM('pending', 'diterima', 'ditolak') NOT NULL,
+    status_baru ENUM('pending', 'diterima', 'ditolak') NOT NULL,
+    catatan TEXT,
+    tanggal_update DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (laporan_id) REFERENCES laporan(id) ON DELETE CASCADE,
+    FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE SET NULL
 );

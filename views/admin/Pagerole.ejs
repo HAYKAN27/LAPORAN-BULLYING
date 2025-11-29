@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Admin</title>
+
+</head>
+
+<body>
+    <div class="">
+        <!-- Sidebar -->
+        <%- include('../partials/sidebar') %>
+
+            <!-- Main content -->
+            <div class="container-fluid">
+                <h3 class="mb-4">Data Admin</h3>
+                <p>Data yang mengidentifikasi pengguna dengan hak akses tertinggi untuk mengelola sistem secara
+                    keseluruhan.</p>
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-body table-responsive">
+                            <table class="table table-striped table-hover table-bordered">
+                                <thead class="table">
+                                    <tr>
+                                        <th>NO.</th>
+                                        <th>Username</th>
+                                        <th>Password</th>
+                                        <th>Gmail</th>
+                                        <th>Role</th>
+                                        <th>Dibuat</th>
+                                        <th class="text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (Getadmin && Getadmin.length> 0) { %>
+                                        <% Getadmin.forEach((user,i)=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= i + 1 %>
+                                                </td>
+                                                <td>
+                                                    <%= user.username %>
+                                                </td>
+                                                <td>
+                                                    <%= user.password %>
+                                                </td>
+                                                <td>
+                                                    <%= user.email %>
+                                                </td>
+                                                <td>
+                                                    <%= user.role %>
+                                                </td>
+                                                <td>
+                                                    <%= new Date(user.created_at).toLocaleDateString('id-ID') %>
+                                                </td>
+                                                <td class="d-flex justify-content-center">
+                                                    <form action="/admin/deleteUsers/<%= user.id %>" method="POST"
+                                                        class="d-inline ms-3">
+                                                        <button class="btn btn-outline-danger btn-sm"
+                                                            onclick="return confirm('Yakin ingin menghapus user ini?')">
+                                                            <i class="bi bi-trash-fill"></i>
+                                                        </button>
+                                                    </form>
+                                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                                        data-bs-target="#editPasswordModal" data-id="<%= user.id %>"
+                                                        title="Edit Password">
+                                                        <i class="bi bi-key-fill"></i>
+                                                    </button>
+
+                                                </td>
+                                            </tr>
+                                            <!-- modal password -->
+                                            <div class="modal fade" id="editPasswordModal" tabindex="-1"
+                                                aria-labelledby="editPasswordModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+
+                                                        <!-- ACTION diperbaiki -->
+                                                        <form action="/admin/UpdateUsers/<%= user.id %>" method="POST">
+
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="editPasswordModalLabel">
+                                                                    Ganti Password User
+                                                                </h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+
+                                                            <div class="modal-body">
+
+                                                                <!-- Password Baru -->
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Password
+                                                                        Baru</label>
+                                                                    <div class="input-group">
+                                                                        <input type="password" class="form-control"
+                                                                            name="password" id="passwordInput" required>
+
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-secondary"
+                                                                            onclick="togglePassword('passwordInput', this)">
+                                                                            <i class="bi bi-eye-fill"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Konfirmasi Password -->
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Konfirmasi
+                                                                        Password</label>
+                                                                    <div class="input-group">
+                                                                        <input type="password" class="form-control"
+                                                                            name="confirmPassword"
+                                                                            id="confirmPasswordInput" required>
+
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-secondary"
+                                                                            onclick="togglePassword('confirmPasswordInput', this)">
+                                                                            <i class="bi bi-eye-fill"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Batal</button>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary">Simpan</button>
+                                                            </div>
+
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">Belum ada data admin</td>
+                                                    </tr>
+                                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        <%- include('../partials/updatePelapor') %>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+
+            if (input.type === "password") {
+                input.type = "text";
+                btn.innerHTML = '<i class="bi bi-eye-slash-fill"></i>';
+            } else {
+                input.type = "password";
+                btn.innerHTML = '<i class="bi bi-eye-fill"></i>';
+            }
+        }
+    </script>
+</body>
+
+</html>

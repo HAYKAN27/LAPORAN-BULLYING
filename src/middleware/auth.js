@@ -1,9 +1,10 @@
 const checkAuth = (req, res, next) => {
-    if (req.session.loggedIn) {
-        next();
-    } else {
-        res.status(401).json({ success: false, message: 'Silakan login terlebih dahulu!' });
+    if (req.session && req.session.loggedIn) {
+        return next();
     }
+
+    // Redirect kembali ke halaman login
+    return res.redirect('/');
 };
 
 module.exports = checkAuth;

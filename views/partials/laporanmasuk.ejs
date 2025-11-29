@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card p-4 mt-5">
+                    <h5 class="pb-4">Daftar Laporan yang masuk</h5>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-striped table-hover table-bordered">
+
+                            <thead>
+                                <tr>
+                                    <th>NO</th>
+                                    <th>Status Pelapor</th>
+                                    <th>Nama Korban</th>
+                                    <th>Pendidikan Pelapor</th>
+                                    <th>Nama pelaku</th>
+                                    <th>Pendidikan Pelaku</th>
+                                    <th>Frekuensi Kejadian</th>
+                                    <th>Tempat Kejadian</th>
+                                    <th>Nama Tempat</th>
+                                    <th>Tanggal dan waktu </th>
+                                    <th>Bukti file</th>
+                                    <th>Nomer Telepon </th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+
+
+                            </thead>
+                            <tbody>
+                                <% if (laporanPending.length===0) { %>
+                                    <tr>
+                                        <td colspan="12" class="text-center">Belum ada laporan baru yang masuk</td>
+                                    </tr>
+                                    <% } %>
+
+                                        <% laporanPending.forEach((item,index)=> { %>
+                                            <tr class="p-3">
+                                                <td>
+                                                    <%= index + 1 %>
+                                                </td>
+                                                <td>
+                                                    <%= item.status_pelapor %>
+                                                </td>
+                                                <td>
+                                                    <%= item.nama_korban %>
+                                                </td>
+                                                <td>
+                                                    <%= item.pendidikan_pelapor %>
+                                                </td>
+                                                <td>
+                                                    <%= item.nama_pelaku %>
+                                                </td>
+                                                <td>
+                                                    <%= item.pendidikan_pelaku %>
+                                                </td>
+                                                <td>
+                                                    <%= item.frekuensi_kejadian %>
+                                                </td>
+                                                <td>
+                                                    <%= item.tempat_kejadian %>
+                                                </td>
+                                                <td>
+                                                    <%= item.nama_tempat %>
+                                                </td>
+                                                <td>
+                                                    <%= item.tanggal_waktu %>
+                                                </td>
+                                                <td>
+                                                    <%= item.bukti_file_path %>
+                                                </td>
+                                                <td>
+                                                    <%= item.nomor_telepon %>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-warning text-dark m-3">
+                                                        <%= item.status %>
+                                                    </span>
+                                                </td>
+
+
+                                                <td>
+                                                    <!-- ACC -->
+                                                    <form action="/report/acc/<%= item.id %>" method="POST"
+                                                        style="display:inline;">
+                                                        <button class="btn btn-success btn-sm">ACC</button>
+                                                    </form>
+
+                                                    <!-- TOLAK -->
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalTolak-<%= item.id %>">
+                                                        Tolak
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <div class="modal fade" id="modalTolak-<%= item.id %>" tabindex="-1">
+                                                <div class="modal-dialog">
+                                                    <form method="POST" action="/report/tolak/<%= item.id %>">
+                                                        <div class="modal-content">
+
+                                                            <div class="modal-header bg-danger">
+                                                                <h5 class="modal-title text-white">Tolak Laporan
+                                                                </h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal"></button>
+                                                            </div>
+
+                                                            <div class="modal-body">
+                                                                <label class="form-label">Alasan Penolakan</label>
+                                                                <textarea name="catatan" class="form-control" rows="4"
+                                                                    required
+                                                                    placeholder="Tuliskan alasan laporan ditolak..."></textarea>
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-danger">
+                                                                    Kirim & Tolak
+                                                                </button>
+                                                            </div>
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <% }) %>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTolakModal(id) {
+            const form = document.getElementById('formTolak');
+            form.action = `/report/tolak/${id}`;
+        }
+    </script>
+
+</body>
+
+</html>

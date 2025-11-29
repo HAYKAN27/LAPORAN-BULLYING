@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <%- include('./partialsUsers/sidebar') %>
+
+        <h3 class="m-3">Riwayat Laporan anda</h3>
+        <h5 class="m-3">Laporan yang diterima</h5>
+
+
+        <div class="card mb-4">
+            <div class="table-responsive p-3">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>Status Pelapor</th>
+                            <th>Nama Korban</th>
+                            <th>Pendidikan Korban</th>
+                            <th>Nama Pelaku</th>
+                            <th>Pendidikan Pelaku</th>
+                            <th>Frekuensi Kejadian</th>
+                            <th>Tempat Kejadian</th>
+                            <th>Nama Tempat</th>
+                            <th>Tanggal dan Waktu</th>
+                            <th>Nomer Telepon</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% const laporanDiterima=laporan.filter(item=> item.status === 'diterima');
+                            if (laporanDiterima.length === 0) {
+                            %>
+                            <tr>
+                                <td colspan="13" class="text-center">Tidak ada laporan diterima</td>
+                            </tr>
+                            <% } else { %>
+                                <% laporanDiterima.forEach((item, i)=> { %>
+                                    <tr class="table">
+                                        <td>
+                                            <%= i + 1 %>
+                                        </td>
+                                        <td>
+                                            <%= item.status_pelapor %>
+                                        </td>
+                                        <td>
+                                            <%= item.nama_korban %>
+                                        </td>
+                                        <td>
+                                            <%= item.pendidikan_pelapor %>
+                                        </td>
+                                        <td>
+                                            <%= item.nama_pelaku %>
+                                        </td>
+                                        <td>
+                                            <%= item.pendidikan_pelaku %>
+                                        </td>
+                                        <td>
+                                            <%= item.frekuensi_kejadian %>
+                                        </td>
+                                        <td>
+                                            <%= item.tempat_kejadian %>
+                                        </td>
+                                        <td>
+                                            <%= item.nama_tempat %>
+                                        </td>
+                                        <td>
+                                            <%= item.tanggal_waktu %>
+                                        </td>
+                                        <td>
+                                            <%= item.nomor_telepon %>
+                                        </td>
+
+                                        <td>
+                                            <span class="badge bg-success">Diterima</span>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h5 class="m-3"> Laporan yang Ditolak</h5>
+
+        <div class="card p-3">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>Status Pelapor</th>
+                            <th>Nama Korban</th>
+                            <th>Pendidikan Korban</th>
+                            <th>Nama Pelaku</th>
+                            <th>Pendidikan Pelaku</th>
+                            <th>Frekuensi Kejadian</th>
+                            <th>Tempat Kejadian</th>
+                            <th>Nama Tempat</th>
+                            <th>Tanggal dan Waktu</th>
+                            <th>Nomer Telepon</th>
+                            <th>Status</th>
+                            <th class="p-4">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% const laporanDitolak=laporan.filter(item=> item.status === 'ditolak');
+                            if (laporanDitolak.length === 0) {
+                            %>
+                            <tr>
+                                <td colspan="13" class="text-center">Tidak ada laporan ditolak</td>
+                            </tr>
+                            <% } else { %>
+                                <% laporanDitolak.forEach((item, i)=> { %>
+                                    <tr class="table">
+                                        <td>
+                                            <%= i + 1 %>
+                                        </td>
+                                        <td>
+                                            <%= item.status_pelapor %>
+                                        </td>
+                                        <td>
+                                            <%= item.nama_korban %>
+                                        </td>
+                                        <td>
+                                            <%= item.pendidikan_pelapor %>
+                                        </td>
+                                        <td>
+                                            <%= item.nama_pelaku %>
+                                        </td>
+                                        <td>
+                                            <%= item.pendidikan_pelaku %>
+                                        </td>
+                                        <td>
+                                            <%= item.frekuensi_kejadian %>
+                                        </td>
+                                        <td>
+                                            <%= item.tempat_kejadian %>
+                                        </td>
+                                        <td>
+                                            <%= item.nama_tempat %>
+                                        </td>
+                                        <td>
+                                            <%= item.tanggal_waktu %>
+                                        </td>
+                                        <td>
+                                            <%= item.nomor_telepon %>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-danger">Ditolak</span>
+                                        </td>
+                                        <td>
+                                            <!-- contoh jika mau lihat catatan penolakan -->
+                                            <button class="btn btn-sm btn-outline-secondary">
+                                                Detail
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</body>
+
+</html>

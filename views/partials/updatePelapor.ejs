@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h3 class="mb-4">Data Pelapor / User </h3>
+
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body table-responsive">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead class="table">
+                            <tr>
+                                <th>NO.</th>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Gmail</th>
+                                <th>Role</th>
+                                <th>Dibuat</th>
+                                <th class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <% if (Getusers && Getusers.length> 0) { %>
+
+                                <% Getusers.forEach((user, i)=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= i + 1 %>
+                                        </td>
+                                        <td>
+                                            <%= user.username %>
+                                        </td>
+                                        <td>
+                                            <%= user.password %>
+                                        </td>
+                                        <td>
+                                            <%= user.email %>
+                                        </td>
+                                        <td>
+                                            <%= user.role %>
+                                        </td>
+                                        <td>
+                                            <%= new Date(user.created_at).toLocaleDateString('id-ID') %>
+                                        </td>
+
+                                        <td class="p-3 d-flex justify-content-center">
+
+                                            <!-- Tombol Hapus -->
+                                            <form action="/admin/deleteUsers/<%= user.id %>" method="POST"
+                                                class="d-inline ms-2">
+                                                <button class="btn btn-outline-danger btn-sm"
+                                                    onclick="return confirm('Yakin ingin menghapus user ini?')">
+                                                    <i class="bi bi-trash-fill"></i>
+                                                </button>
+                                            </form>
+
+                                            <!-- Tombol Edit Password -->
+                                            <button class="btn btn-sm btn-warning ms-2" data-bs-toggle="modal"
+                                                data-bs-target="#editPasswordModal-<%= user.id %>"
+                                                title="Edit Password">
+                                                <i class="bi bi-key-fill"></i>
+                                            </button>
+
+
+                                            <!-- Modal Edit Password -->
+                                            <div class="modal fade" id="editPasswordModal-<%= user.id %>" tabindex="-1">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+
+                                                        <form action="/admin/updateUsers/<%= user.id %>" method="POST">
+
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Ganti Password User</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal"></button>
+                                                            </div>
+
+                                                            <div class="modal-body">
+
+                                                                <!-- Password Baru -->
+
+
+                                                                <div class="mb-3">
+                                                                    <label>Password Baru</label>
+                                                                    <div class="input-group">
+                                                                        <input type="password" class="form-control"
+                                                                            name="password"
+                                                                            id="PasswordInput-<%= user.id %>"
+                                                                            required>
+
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-secondary"
+                                                                            onclick="togglePassword('PasswordInput-<%= user.id %>', this)">
+                                                                            <i class="bi bi-eye-fill"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Konfirmasi Password -->
+
+
+                                                                <div class="mb-3">
+                                                                    <label>Konfirmasi Password</label>
+                                                                    <div class="input-group">
+                                                                        <input type="password" class="form-control"
+                                                                            name="confirpassword"
+                                                                            id="confirmPasswordInput-<%= user.id %>"
+                                                                            required>
+
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-secondary"
+                                                                            onclick="togglePassword('confirmPasswordInput-<%= user.id %>', this)">
+                                                                            <i class="bi bi-eye-fill"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Batal</button>
+
+                                                                <button type="submit" class="btn btn-primary"
+                                                                    id="simpan" onclick="sendUpdate()">
+                                                                    Simpan 
+                                                                </button>
+                                                            </div>
+
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- END Modal -->
+
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+
+                                        <% } else { %>
+
+                                            <tr>
+                                                <td colspan="6" class="text-center">Belum ada data Pelapor</td>
+                                            </tr>
+
+                                            <% } %>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+
+            if (input.type === "password") {
+                input.type = "text";
+                btn.innerHTML = '<i class="bi bi-eye-slash-fill"></i>';
+            } else {
+                input.type = "password";
+                btn.innerHTML = '<i class="bi bi-eye-fill"></i>';
+            }
+        }
+        function sendUpdate() {
+            const password = document.getElementById("passwordInput").value;
+
+            if (password.trim() === "") {
+                // Jika password kosong → tidak lakukan apa-apa
+                return;
+            }
+
+            // Jika password terisi → tampilkan alert
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: 'Password berhasil diperbarui.',
+                confirmButtonText: 'OK'
+            });
+
+        }
+    </script>
+</body>
+
+</html>

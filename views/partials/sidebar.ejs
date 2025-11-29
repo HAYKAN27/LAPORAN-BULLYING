@@ -31,7 +31,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <div class="logo">
                 <!-- Logo -->
-                 <h5>MUTU</h5>
+                <img class="ps-3" src="/img/mutu.png" alt="" style="width: max-content; height: 60px ;">
             </div>
             <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
@@ -71,8 +71,8 @@
             <li class="sidebar-title">Menu</li>
             
             <li
-                class="sidebar-item  ">
-                <a href="/dashAdmin" class='sidebar-link'>
+                class="sidebar-item  <%= activePage === 'dashboard' ? 'active' : '' %> ">
+                <a href="/admin/dashboard" class='sidebar-link'>
                     <i class="bi bi-grid-fill"></i>
                     <span>Dashboard</span>
                 </a>
@@ -81,8 +81,8 @@
             </li>
 
             <li
-                class="sidebar-item active">
-                <a href="/DaftarLaporan" class='sidebar-link'>
+                class="sidebar-item  <%= activePage === 'ml' ? 'active' : '' %>">
+                <a href="/admin/page-ml" class='sidebar-link'>
                     <i class="bi bi-flag-fill"></i>
                     <span>Manajemen Laporan</span>
                 </a>
@@ -106,24 +106,16 @@
                 
 
             </li>
+            
             <li
-                class="sidebar-item  has-sub">
-                <a href="#" class='sidebar-link'>
+                class="sidebar-item  <%= activePage === 'role' ? 'active' : '' %>">
+                <a href="/admin/page-role" class='sidebar-link'>
                     <i class="bi bi-people-fill"></i>
                     <span>Manajemen Role & Hak akses</span>
                 </a>
                 
                 <ul class="submenu ">
-                    <li class="submenu-item">
-
-                        <a href="#" class="submenu-link">Admin</a>
-                        
-                        
-                    </li>
                     
-                    <li class="submenu-item">
-
-                        <a href="#" class="submenu-link">Member</a>
                         
                         <ul class="submenu submenu-level-2 ">
 
@@ -145,21 +137,21 @@
             <li class="sidebar-title">Pages</li>
             
             <li
-                class="sidebar-item  has-sub">
+                class="sidebar-item  has-sub <%= activePage === 'register' ? 'active' : '' %>">
                 <a href="#" class='sidebar-link'>
                     <i class="bi bi-person-badge-fill"></i>
                     <span>Authentication</span>
                 </a>
                 
-                <ul class="submenu ">
+                <ul class="submenu">
                     
                     <li class="submenu-item  ">
-                        <a href="auth-register.html" class="submenu-link">Register</a>
+                        <a href="/admin/page-register" class="submenu-link">Register</a>
                         
                     </li>
                     
                     <li class="submenu-item  ">
-                        <a href="auth-forgot-password.html" class="submenu-link">Forgot Password</a>
+                        <a href="/admin/page-role" class="submenu-link">Forgot Password</a>
                         
                     </li>
                     
@@ -170,7 +162,7 @@
             
             <li
                 class="sidebar-item  ">
-                <a href="https://github.com/zuramai/mazer#donation" class='sidebar-link'>
+                <a href="#" class='sidebar-link'>
                     <i class="bi bi-cash"></i>
                     <span>Developer</span>
                 </a>
@@ -179,7 +171,7 @@
             </li>
             <li
                 class="sidebar-item  ">
-                <a href="/pageLogin" class='sidebar-link'>
+                <a href="/" class='sidebar-link'>
                     <i class="bi bi-box-arrow-left"></i>
                     <span>Logout</span>
                 </a>
@@ -200,17 +192,17 @@
 <body>
 
     
-    <script src="assets/static/js/components/dark.js"></script>
-    <script src="assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="/assets/static/js/components/dark.js"></script>
+    <script src="/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     
     
-    <script src="assets/compiled/js/app.js"></script>
+    <script src="/assets/compiled/js/app.js"></script>
     
 
     
 <!-- Need: Apexcharts -->
-<script src="assets/extensions/apexcharts/apexcharts.min.js"></script>
-<script src="assets/static/js/pages/dashboard.js"></script>
+<script src="/assets/extensions/apexcharts/apexcharts.min.js"></script>
+<script src="/assets/static/js/pages/dashboard.js"></script>
 
 </body>
 
