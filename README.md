@@ -1,29 +1,43 @@
-# Laporan Bullying
-Website untuk mengelola dan menampilkan laporan kasus bullying di sekolah.
+🛡️ Sistem Laporan Bullying Sekolah
 
-## 🚀 Fitur Utama
-- Login & Dashboard Admin
-- Laporan Kasus Bullying
-- Tampilan berbasis Mazer Template (EJS)
-- Database MySQL
+Website berbasis web untuk mengelola, mencatat, dan memantau laporan kasus bullying di lingkungan sekolah.
+Aplikasi ini memudahkan pelapor dalam menyampaikan laporan serta membantu admin dalam melakukan verifikasi dan pengelolaan laporan secara terstruktur.
 
-## ⚙️ Teknologi
-- Node.js (Express)
-- EJS Template Engine
-- MySQL
-- Bootstrap / Mazer
+🚀 Fitur Utama
+👩‍💻 Admin
 
-## 📦 Cara Menjalankan
-1. Clone repository ini:
-   ```bash
-   git clone https://github.com/username/nama-repo.git
-2. Masuk ke folder:
-   ```bash
-   cd-repo
-3.Install dependencies:
-   ```bash
-   npm install
+Login & Dashboard Admin
 
-4.Jalankan server:
+Melihat laporan masuk
 
-npm start
+Menerima atau menolak laporan bullying
+
+Mengelola akun admin dan pengguna
+
+Reset / ganti password akun
+
+🙋‍♂️ Pengguna (Pelapor)
+
+Membuat laporan kasus bullying
+
+Melihat status laporan
+
+Mengelola data laporan yang dibuat
+
+🖥️ Tampilan
+
+Menggunakan Mazer Admin Template
+
+Template berbasis EJS
+
+Responsive dan user-friendly
+
+⚙️ Teknologi yang Digunakan
+
+Node.js & Express.js
+
+EJS (Embedded JavaScript Template)
+
+MySQL sebagai database
+
+Bootstrap / Mazer Template
