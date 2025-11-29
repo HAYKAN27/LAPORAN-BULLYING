@@ -47,6 +47,10 @@ Project ini memiliki dua role utama: **Admin** dan **User/Pelapor**.
 
 ## ⚙️ Cara Menjalankan Project
 
-### 1️⃣ Clone Repository
+### 1 Clone Repository
+```bash
+git clone https://github.com/username/laporan-bullying.git
+
+### 2
 ```bash
 git clone https://github.com/username/laporan-bullying.git
