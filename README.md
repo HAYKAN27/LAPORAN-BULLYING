@@ -93,8 +93,8 @@ Sistem ini memiliki dua peran utama, yaitu **Admin** dan **User/Pelapor**.
 - **MySQL**
 - **Bootstrap**
 - **Mazer Admin Template**
-- **Express Session**
-- **Multer (Upload File)**
+
+
 
 ---
 
